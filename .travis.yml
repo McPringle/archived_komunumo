@@ -1,0 +1,35 @@
+language: java
+
+sudo: false
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - '$HOME/.gradle/caches'
+    - '$HOME/.gradle/wrapper'
+    - '$HOME/.m2/repository'
+
+jdk:
+  - oraclejdk8
+
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
+after_success:
+  - docker build -t jugswitzerland/coma .
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker push jugswitzerland/coma
+  - docker logout
+
+env:
+  global:
+  - secure: JF1ob2+FxYRrFpX1U9PTP+gIiJQTCJNkhtqToDnVw6B3GKZhHL+MVzrIJgpA3cmcZaVJWyaYOJsfvfGAnI7jKc7SBo6iEalzktO0FiXjJXzMqabM+u0gyU7zbp/R7I7EWYD9Dh/DZ8kVCEShJJo/xcBc8bvmIbAE9+Vu0sIjg0BdbeyB4ZAKsh88Ka9aw+steN1Xi0vPXQE82s2mgc5wX/tIlv54VlfgY8SaqUm9viw+Uw1QJbgCgYMdKnTVEl05A9R3JyG12eYmG+H5p41Ds7A60+eWqtTDsL/CiOzZS3aaUuJtTz6eeRtuvPCDa+AHl1qP6T/3rYnzg4VPYC9QNyuWkL8m9EqrCfzzhW6lFClCXfTgwjERk2xDLiN57zYFS0UKXUlIoNUXnmcyNaASiuL0LSBHwpY0zBubxJheZtOigUqGPp+n8oivr6MLLNkc0oaD43z62DenPfszOjsexFcM9ZgDjP2jMNoukjmG8U72sqNlcpqvChDR4lcbFPitW6cvCiW7vhDfKiRf4nL2RvLpVit4U5O4+OIWHPEUDZblNSTWWl4o010MSLn4IXtWSDhrHVbGjJkzkGqO3GI50QeOBLF8XEOozdlJVH8wRC/J6CCsFDk0j+XRoGiKT9MdRWK2OJKrLxXbnQiXmtVBe35ZHtk0efc9FGLUw3SnjaM= # docker
+  - secure: k2zpXwAX/+KgasQp0gPwu7S7niJZZdS1odf9a7TJTLIortyNpfF8XsaWPsRuXp+mX1c5HlWoZVRU7x6VqSKDAq+NjhBa/Ez7tlY552CgBVxUGAcz3cSznqlj2oXUVrQgdEmsYVEXXkBgvp9U43wvJVcHsSe7ThOU/Fz8orgH3ENiQY51PCLqX0kEyaOzCCswEfLp3r/rSruS9CLidvflzze+JcVgFyu94X7TQeL+zdrlfAsppkcksFYuOyQoSbYVdNf11TMl4jLKC7iiNATH0pm4CropZnXUf3+AFr30fT90GsFOu+HBDKVVLkQ3WJ+69Cl/YgtRlZum1E1ed6gTmXT77CZJxAASgXZ7RTbNGVbiDPP90Hv8mCE0BvBaxOvb7zzGt3v1UBM4MwKz9BsMKX+xvHJTnPBgeDmKWan/4FmDtP7cKlQBqDrD0kZgNrlw5f9DF+s7ML7UeSpepUv25Dk0e2Z/P0QRRZD2wr2C+iQ0jKsJkXZCKMxGKsIz8yAYfFAy0qg7jEy73nJvSMbNX+XuuMvqw9tIwwnbITU7SEuqNbYfAzdW8G+D5Vo7zlxrd6GDV1bT7pfPd3gkXa+OHEU/YyiFTTC8qyCKODuDBMGWZBQUvBf/808NPMoommtKmkkyeSdQLqtcrAHrDqddgBsnqXQBCuWrH4uYhS5zmV4= # docker
