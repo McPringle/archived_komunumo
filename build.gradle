@@ -46,6 +46,9 @@ dependencies {
             "javax:javaee-api:$javaeeVersion",
             "org.projectlombok:lombok:$lombokVersion"
     )
+    compile (
+            "org.litote.kmongo:kmongo:$kmongoVersion"
+    )
     testCompile (
             "org.junit.jupiter:junit-jupiter-api:$junitVersion",
             "org.hamcrest:hamcrest-all:$hamcrestVersion"
