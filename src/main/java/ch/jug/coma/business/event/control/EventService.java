@@ -15,34 +15,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package ch.jug.coma.business.event.boundary;
+package ch.jug.coma.business.event.control;
 
-import ch.jug.coma.business.event.control.EventService;
+import ch.jug.coma.PersistenceManager;
 import ch.jug.coma.business.event.entity.Event;
+import com.mongodb.client.MongoCollection;
 
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
+import javax.inject.Singleton;
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
-@Path("events")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class EventsResource {
+@Singleton
+public class EventService {
 
-    private final EventService service;
+    private final MongoCollection<Event> collection;
 
-    @Inject
-    public EventsResource(final EventService service) {
-        this.service = service;
+    public EventService() {
+        this.collection = PersistenceManager.createMongoCollection(Event.class);
     }
 
     @GET
     public List<Event> readAllEvents() {
-        return this.service.readAllEvents();
+        final List<Event> events = new ArrayList<>();
+        this.collection.find().iterator().forEachRemaining(events::add);
+        return events;
     }
 
 }
