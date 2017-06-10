@@ -52,6 +52,7 @@ dependencies {
             "org.litote.kmongo:kmongo:$kmongoVersion"
     )
     testCompile (
+            "com.google.guava:guava:$guavaVersion",
             "org.junit.jupiter:junit-jupiter-api:$junitVersion",
             "org.hamcrest:hamcrest-all:$hamcrestVersion"
     )
