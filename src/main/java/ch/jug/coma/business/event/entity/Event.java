@@ -19,15 +19,18 @@ package ch.jug.coma.business.event.entity;
 
 import lombok.Builder;
 import lombok.Value;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Value
 @Builder
+@Entity
 public class Event {
 
-    String id;
+    @Id String id;
     String title;
     String subtitle;
     List<String> tags;

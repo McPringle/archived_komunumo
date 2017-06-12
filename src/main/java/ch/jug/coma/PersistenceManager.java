@@ -19,20 +19,19 @@ package ch.jug.coma;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import lombok.Synchronized;
 import lombok.experimental.UtilityClass;
-import org.litote.kmongo.KMongo;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
 
 @UtilityClass
 public class PersistenceManager {
 
-    private static MongoDatabase database = null;
+    private static Datastore datastore = null;
 
     @Synchronized
     private static void init() {
-        if (database == null) {
+        if (datastore == null) {
             final String dbUsername = System.getenv("db_username");
             final String dbPassword = System.getenv("db_password");
             final String dbHost = System.getenv("db_host");
@@ -45,19 +44,22 @@ public class PersistenceManager {
             );
 
             final MongoClientURI mongoClientURI = new MongoClientURI(dbURI);
+            final MongoClient mongoClient = new MongoClient(mongoClientURI);
 
-            final MongoClient client = KMongo.INSTANCE.createClient(mongoClientURI);
+            final Morphia morphia = new Morphia();
+            morphia.mapPackage("ch.jug.coma.business.event.entity");
 
-            database = client.getDatabase(dbName);
+            datastore = morphia.createDatastore(mongoClient, dbName);
+            datastore.ensureIndexes();
         }
     }
 
-    public static <T> MongoCollection<T> createMongoCollection(final Class<T> clazz) {
-        if (database == null) {
+    public static <T> Datastore getDatastore() {
+        if (datastore == null) {
             init();
         }
 
-        return database.getCollection(clazz.getSimpleName(), clazz);
+        return datastore;
     }
 
 }

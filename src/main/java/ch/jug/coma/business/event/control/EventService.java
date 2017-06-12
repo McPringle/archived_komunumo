@@ -19,27 +19,24 @@ package ch.jug.coma.business.event.control;
 
 import ch.jug.coma.PersistenceManager;
 import ch.jug.coma.business.event.entity.Event;
-import com.mongodb.client.MongoCollection;
+import org.mongodb.morphia.Datastore;
 
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
-import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
 public class EventService {
 
-    private final MongoCollection<Event> collection;
+    private final Datastore datastore;
 
     public EventService() {
-        this.collection = PersistenceManager.createMongoCollection(Event.class);
+        this.datastore = PersistenceManager.getDatastore();
     }
 
     @GET
     public List<Event> readAllEvents() {
-        final List<Event> events = new ArrayList<>();
-        this.collection.find().iterator().forEachRemaining(events::add);
-        return events;
+        return datastore.createQuery(Event.class).asList();
     }
 
 }

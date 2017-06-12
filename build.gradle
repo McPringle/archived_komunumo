@@ -49,7 +49,7 @@ dependencies {
     compile (
             "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$fasterxmlVersion",
             "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:$fasterxmlVersion",
-            "org.litote.kmongo:kmongo:$kmongoVersion"
+            "org.mongodb.morphia:morphia:$morphiaVersion"
     )
     testCompile (
             "com.google.guava:guava:$guavaVersion",
