@@ -17,17 +17,25 @@
  */
 package ch.jug.coma.business.event.entity;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Value
-@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode
 public class Event {
 
     @Id String id;
