@@ -22,7 +22,6 @@ import ch.jug.coma.business.event.entity.Event;
 import org.mongodb.morphia.Datastore;
 
 import javax.inject.Singleton;
-import javax.ws.rs.GET;
 import java.util.List;
 
 @Singleton
@@ -34,9 +33,8 @@ public class EventService {
         this.datastore = PersistenceManager.getDatastore();
     }
 
-    @GET
     public List<Event> readAllEvents() {
-        return datastore.createQuery(Event.class).asList();
+        return this.datastore.createQuery(Event.class).asList();
     }
 
 }
