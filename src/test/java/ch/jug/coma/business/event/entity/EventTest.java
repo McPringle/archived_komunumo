@@ -47,8 +47,16 @@ class EventTest {
 
     @BeforeAll
     private static void setUp() {
-        event = new Event(TESTDATA_ID, TESTDATA_TITLE, TESTDATA_SUBTITLE, TESTDATA_TAGS, TESTDATA_DESCRIPTION,
-                TESTDATA_TIME, TESTDATA_CITY, TESTDATA_VENUE);
+        event = Event.builder()
+                .id(TESTDATA_ID)
+                .title(TESTDATA_TITLE)
+                .subtitle(TESTDATA_SUBTITLE)
+                .tags(TESTDATA_TAGS)
+                .description(TESTDATA_DESCRIPTION)
+                .time(TESTDATA_TIME)
+                .city(TESTDATA_CITY)
+                .venue(TESTDATA_VENUE)
+                .build();
     }
 
     @AfterAll
@@ -108,6 +116,11 @@ class EventTest {
     @Test
     void testToString() {
         assertThat(event.toString(), is(TESTDATA_TOSTRING));
+    }
+
+    @Test
+    void builder() {
+        assertThat(Event.builder(), is(notNullValue()));
     }
 
 }

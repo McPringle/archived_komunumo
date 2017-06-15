@@ -23,6 +23,7 @@ import lombok.Synchronized;
 import lombok.experimental.UtilityClass;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.mapping.Mapper;
 
 @UtilityClass
 public class PersistenceManager {
@@ -47,6 +48,8 @@ public class PersistenceManager {
             final MongoClient mongoClient = new MongoClient(mongoClientURI);
 
             final Morphia morphia = new Morphia();
+            final Mapper mapper = morphia.getMapper();
+            mapper.getOptions().setObjectFactory(new CustomMorphiaObjectFactory());
             morphia.mapPackage("ch.jug.coma.business.event.entity");
 
             datastore = morphia.createDatastore(mongoClient, dbName);
