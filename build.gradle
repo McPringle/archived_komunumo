@@ -53,7 +53,7 @@ dependencies {
     )
     testCompile (
             "com.google.guava:guava:$guavaVersion",
-            "org.junit.jupiter:junit-jupiter-api:$junitVersion",
-            "org.hamcrest:hamcrest-all:$hamcrestVersion"
+            "org.hamcrest:hamcrest-all:$hamcrestVersion",
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     )
 }
