@@ -37,4 +37,8 @@ public class EventService {
         return this.datastore.createQuery(Event.class).asList();
     }
 
+    public String createEvent(final Event event) {
+        this.datastore.save(event);
+        return event.getId();
+    }
 }

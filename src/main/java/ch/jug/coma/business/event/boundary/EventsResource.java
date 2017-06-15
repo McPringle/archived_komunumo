@@ -21,11 +21,18 @@ import ch.jug.coma.business.event.control.EventService;
 import ch.jug.coma.business.event.entity.Event;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.io.File;
+import java.net.URI;
 import java.util.List;
 
 @Path("events")
@@ -38,6 +45,13 @@ public class EventsResource {
     @Inject
     public EventsResource(final EventService service) {
         this.service = service;
+    }
+
+    @POST
+    public Response createEvent(@Valid final Event event, @Context final UriInfo info) {
+        final String id = this.service.createEvent(event);
+        final URI uri = info.getAbsolutePathBuilder().path(File.separator + id).build();
+        return Response.created(uri).build();
     }
 
     @GET
