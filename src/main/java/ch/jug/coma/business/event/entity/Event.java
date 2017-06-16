@@ -33,6 +33,7 @@ public class Event {
     @Id String id;
     String title;
     String subtitle;
+    String speaker;
     List<String> tags;
     String description;
     LocalDateTime time;
