@@ -19,7 +19,10 @@ package ch.jug.coma.business.event.control;
 
 import ch.jug.coma.PersistenceManager;
 import ch.jug.coma.business.event.entity.Event;
+import com.mongodb.WriteResult;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -40,5 +43,11 @@ public class EventService {
     public String createEvent(final Event event) {
         this.datastore.save(event);
         return event.getId();
+    }
+
+    public void deleteEvent(final String id) {
+        final Query<Event> query = datastore.createQuery(Event.class)
+                .filter("_id =", new ObjectId(id));
+        final WriteResult result = this.datastore.delete(query);
     }
 }

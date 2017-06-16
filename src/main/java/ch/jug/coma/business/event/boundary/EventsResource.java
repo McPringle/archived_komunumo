@@ -23,9 +23,11 @@ import ch.jug.coma.business.event.entity.Event;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -57,6 +59,13 @@ public class EventsResource {
     @GET
     public List<Event> readAllEvents() {
         return this.service.readAllEvents();
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteEvent(@PathParam("id") final String id) {
+        this.service.deleteEvent(id);
+        return Response.noContent().build();
     }
 
 }
