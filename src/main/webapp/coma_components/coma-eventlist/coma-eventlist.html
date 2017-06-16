@@ -1,0 +1,157 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"/>
+<link rel="import" href="../../bower_components/paper-card/paper-card.html" />
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html" />
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html" />
+
+<dom-module id="coma-eventlist">
+    <template>
+        <style>
+            * {
+                color: #333333;
+            }
+
+            header {
+                display: inline-block;
+                vertical-align: top;
+                width: 225px;
+            }
+
+            header a, header a:visited {
+                border-bottom: 1px solid #bfbfbf;
+                display: block;
+                margin-right: 1em;
+                padding: 0.5em;
+                text-decoration: none;
+            }
+
+            header a:hover {
+                background-color: #f3f3f3;
+            }
+
+            h2 {
+                font-size: 2em;
+                margin-top: 1em;
+                text-transform: uppercase;
+            }
+
+            #eventlist {
+                display: inline-block;
+                margin-top: 2em;
+                max-width: calc(100% - 235px);
+            }
+
+            paper-card {
+                margin-bottom: 1em;
+                margin-right: 1em;
+                padding: 1em;
+                vertical-align: top;
+                width: 30em;
+            }
+
+            .upcoming {
+                background-color: #930722;
+                color: #ffffff;
+                font-weight: bold;
+                margin-right: 1em;
+                padding: 3px;
+                text-transform: uppercase;
+            }
+
+            .city {
+                font-weight: bold;
+                padding-right: 1em;
+                text-transform: uppercase;
+            }
+
+            .time {
+                padding-right: 1em;
+            }
+
+            .ical a {
+                color: #9C0523;
+                font-weight: bold;
+                text-decoration: none;
+            }
+
+            em {
+                font-style: normal;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            .keywords {
+                display: block;
+                margin-bottom: 1em;
+                margin-top: 1em;
+            }
+
+            .more {
+                display: block;
+                margin-top: 1em;
+            }
+
+            .more a {
+                color: #930722;
+                font-weight: bold;
+                text-decoration: none;
+                text-transform: uppercase;
+            }
+
+            .more a:hover {
+                text-decoration: underline;
+            }
+
+            .more iron-icon {
+                --iron-icon-fill-color: #930722;
+                --iron-icon-height: 16px;
+                --iron-icon-width: 16px;
+                padding-bottom: 3px;
+            }
+        </style>
+
+        <header>
+            <h2>Events</h2>
+            <a href="">Basel</a>
+            <a href="">Bern</a>
+            <a href="">Luzern</a>
+            <a href="">St. Gallen</a>
+            <a href="">Zürich</a>
+        </header>
+
+        <div id="eventlist">
+            <iron-ajax auto url="[[rootPath]]api/events" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
+            <template is="dom-repeat" items="[[ajaxResponse]]">
+                <paper-card>
+                    <span class="upcoming">Upcoming</span>
+                    <span class="city">{{item.city}}</span>
+                    <span class="time">
+                        {{item.time.date.day}}.{{item.time.date.month}}.{{item.time.date.year}}
+                        {{item.time.time.hour}}:{{item.time.time.minute}}h
+                    </span>
+                    <span class="ical">(<a href="">iCal</a>)</span>
+
+                    <h2>{{item.title}}</h2>
+                    <h3>{{item.subtitle}}</h3>
+
+                    <hr />
+
+                    <span class="speaker"><em>Speaker:</em> {{item.speaker}}</span>
+                    <span class="company"><em>Company:</em> {{item.company}}</span>
+
+                    <span class="keywords"><em>Keywords:</em> {{item.tags}}</span>
+
+                    <span class="description">{{item.description}}</span>
+
+                    <span class="more"><iron-icon icon="label"></iron-icon> <a href="">more</a></span>
+                </paper-card>
+            </template>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'coma-eventlist'
+        });
+    </script>
+</dom-module>
