@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../../bower_components/paper-styles/typography.html"/>
+<link rel="import" href="../../bower_components/paper-material/paper-material.html"/>
+<link rel="import" href="../coma-header/coma-header.html" />
+<link rel="import" href="../coma-newsletter/coma-newsletter.html" />
+<link rel="import" href="../coma-eventlist/coma-eventlist.html" />
+
+<dom-module id="coma-app">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            * {
+                font-family: 'Roboto', sans-serif;
+            }
+            paper-material {
+                margin: 2em;
+                padding: 0.5em 1em 0.5em 1em;
+            }
+        </style>
+
+        <paper-material elevation="5">
+            <coma-header></coma-header>
+        </paper-material>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'coma-app'
+        });
+    </script>
+</dom-module>
