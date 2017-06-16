@@ -34,6 +34,7 @@ public class Event {
     String title;
     String subtitle;
     String speaker;
+    String company;
     List<String> tags;
     String description;
     LocalDateTime time;
