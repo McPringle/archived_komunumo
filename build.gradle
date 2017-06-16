@@ -47,9 +47,9 @@ dependencies {
             "org.projectlombok:lombok:$lombokVersion"
     )
     compile (
-            "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$fasterxmlVersion",
-            "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:$fasterxmlVersion",
-            "org.mongodb.morphia:morphia:$morphiaVersion"
+            "com.google.code.gson:gson:$gsonVersion",
+            "org.mongodb.morphia:morphia:$morphiaVersion",
+            "org.zalando.phrs:jersey-media-json-gson:$jerseyMediaJsonGsonVersion"
     )
     testCompile (
             "com.google.guava:guava:$guavaVersion",
