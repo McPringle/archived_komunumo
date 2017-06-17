@@ -18,4 +18,5 @@
 .idea
 build
 coma.iml
+/src/main/resources/rebel.xml
 /src/main/webapp/bower_components
