@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html" />
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"/>
 <link rel="import" href="../../bower_components/paper-card/paper-card.html" />
+<link rel="import" href="../../bower_components/paper-button-group/paper-button-group.html" />
+<link rel="import" href="../../bower_components/paper-button/paper-button.html" />
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html" />
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html" />
 
@@ -17,16 +19,21 @@
                 width: 225px;
             }
 
-            header a, header a:visited {
+            header paper-button {
                 border-bottom: 1px solid #bfbfbf;
                 display: block;
                 margin-right: 1em;
                 padding: 0.5em;
-                text-decoration: none;
+                text-transform: none;
             }
 
-            header a:hover {
+            header paper-button:hover, header paper-button.iron-selected {
                 background-color: #f3f3f3;
+            }
+
+            header paper-button.iron-selected {
+                font-weight: bold;
+                text-transform: uppercase;
             }
 
             h2 {
@@ -112,15 +119,18 @@
 
         <header>
             <h2>Events</h2>
-            <a href="">Basel</a>
-            <a href="">Bern</a>
-            <a href="">Luzern</a>
-            <a href="">St. Gallen</a>
-            <a href="">Zürich</a>
+            <paper-button-group attr-for-selected="value" selected="{{city}}">
+                <paper-button value="">All Cities</paper-button>
+                <paper-button value="Basel">Basel</paper-button>
+                <paper-button value="Bern">Bern</paper-button>
+                <paper-button value="Luzern">Luzern</paper-button>
+                <paper-button value="St.%20Gallen">St. Gallen</paper-button>
+                <paper-button value="Z%C3%BCrich">Zürich</paper-button>
+            </paper-button-group>
         </header>
 
         <div id="eventlist">
-            <iron-ajax auto url="[[rootPath]]api/events" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
+            <iron-ajax auto url="[[rootPath]]api/events?city=[[city]]" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
             <template is="dom-repeat" items="[[ajaxResponse]]">
                 <paper-card>
                     <span class="upcoming">Upcoming</span>
@@ -151,7 +161,14 @@
 
     <script>
         Polymer({
-            is: 'coma-eventlist'
+            is: 'coma-eventlist',
+            properties: {
+                city: {
+                    type: String,
+                    value: ''
+                }
+            },
+            }
         });
     </script>
 </dom-module>

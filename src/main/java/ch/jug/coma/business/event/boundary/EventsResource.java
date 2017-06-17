@@ -29,6 +29,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -36,6 +37,7 @@ import javax.ws.rs.core.UriInfo;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("events")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -57,8 +59,14 @@ public class EventsResource {
     }
 
     @GET
-    public List<Event> readAllEvents() {
-        return this.service.readAllEvents();
+    public List<Event> readAllEvents(@QueryParam("city") final String city) {
+        List<Event> events = this.service.readAllEvents();
+        if (city != null && !city.isEmpty()) {
+            events = events.stream()
+                    .filter(e -> e.getCity().equalsIgnoreCase(city))
+                    .collect(Collectors.toList());
+        }
+        return events;
     }
 
     @DELETE
