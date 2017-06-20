@@ -41,4 +41,11 @@ public class SponsorService {
         return sponsor.getId();
     }
 
+    public List<Sponsor> readAllSponsors() {
+        return this.datastore.createQuery(Sponsor.class).asList().stream()
+                .sorted(sortByLevel
+                        .thenComparing(sortByName))
+                .collect(Collectors.toList());
+    }
+
 }

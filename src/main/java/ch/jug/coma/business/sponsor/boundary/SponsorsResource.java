@@ -56,4 +56,9 @@ public class SponsorsResource {
         return Response.created(uri).build();
     }
 
+    @GET
+    public List<Sponsor> readAllSponsors() {
+        return this.service.readAllSponsors();
+    }
+
 }
