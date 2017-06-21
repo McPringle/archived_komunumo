@@ -48,4 +48,11 @@ public class SponsorService {
                 .collect(Collectors.toList());
     }
 
+    public List<Sponsor> readSponsorsWithLevel(final Level level) {
+        return readAllSponsors().stream()
+                .filter(s -> s.getLevel().equals(level))
+                .sorted(sortByName)
+                .collect(Collectors.toList());
+    }
+
 }

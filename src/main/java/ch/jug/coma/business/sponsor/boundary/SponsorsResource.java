@@ -61,4 +61,10 @@ public class SponsorsResource {
         return this.service.readAllSponsors();
     }
 
+    @GET
+    @Path("{level}")
+    public List<Sponsor> readSponsorsWithLevel(@PathParam("level") final String level) {
+        return this.service.readSponsorsWithLevel(Level.fromString(level));
+    }
+
 }
