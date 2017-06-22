@@ -1,0 +1,54 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"/>
+
+<!-- max size for sponsor logo: 200x80 -->
+
+<dom-module id="coma-sponsors">
+    <template>
+        <style>
+            * {
+                color: #333333;
+            }
+
+            h3 {
+                font-size: 1em;
+                margin-bottom: 0;
+                text-decoration: underline;
+                text-transform: uppercase;
+            }
+
+            span {
+                background-position: center;
+                background-repeat: no-repeat;
+                border-bottom: 1px solid #bfbfbf;
+                display: inline-block;
+                height: 100px;
+                margin-right: 10px;
+                width: 210px;
+            }
+        </style>
+
+        <div>
+            <h3>[[_capitalizeFirstLetter(level)]] Sponsors</h3>
+            <iron-ajax auto url="[[rootPath]]api/sponsors/[[level]]" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
+            <template is="dom-repeat" items="[[ajaxResponse]]">
+                <a href="[[item.website]]"><span style="background-image: url('[[rootPath]]images/sponsors/[[item.id]].png');" alt="[[item.name]]" title="[[item.name]]" /></a>
+            </template>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'coma-sponsors',
+            properties: {
+                level: {
+                    type: String,
+                    value: ''
+                }
+            },
+            _capitalizeFirstLetter(level) {
+                return level.charAt(0).toUpperCase() + level.slice(1);;
+            }
+        });
+    </script>
+</dom-module>
