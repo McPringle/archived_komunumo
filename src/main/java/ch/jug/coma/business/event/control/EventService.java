@@ -26,6 +26,7 @@ import org.mongodb.morphia.query.Query;
 
 import javax.inject.Singleton;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Singleton
 public class EventService {
@@ -38,6 +39,12 @@ public class EventService {
 
     public List<Event> readAllEvents() {
         return this.datastore.createQuery(Event.class).asList();
+    }
+
+    public List<Event> readEventsForCity(final String city) {
+        return readAllEvents().stream()
+                .filter(e -> e.getCity().equalsIgnoreCase(city))
+                .collect(Collectors.toList());
     }
 
     public String createEvent(final Event event) {

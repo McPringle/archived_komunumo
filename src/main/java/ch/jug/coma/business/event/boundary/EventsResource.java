@@ -37,7 +37,6 @@ import javax.ws.rs.core.UriInfo;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Path("events")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -60,13 +59,9 @@ public class EventsResource {
 
     @GET
     public List<Event> readAllEvents(@QueryParam("city") final String city) {
-        List<Event> events = this.service.readAllEvents();
-        if (city != null && !city.isEmpty()) {
-            events = events.stream()
-                    .filter(e -> e.getCity().equalsIgnoreCase(city))
-                    .collect(Collectors.toList());
-        }
-        return events;
+        return city != null && !city.isEmpty()
+                ? this.service.readEventsForCity(city)
+                : this.service.readAllEvents();
     }
 
     @DELETE
