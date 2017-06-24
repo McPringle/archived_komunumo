@@ -30,6 +30,9 @@ import java.util.stream.Collectors;
 @Singleton
 public class SponsorService {
 
+    private Comparator<Sponsor> sortByLevel = (s1, s2) -> s1.getLevel().compareTo(s2.getLevel());
+    private Comparator<Sponsor> sortByName = (s1, s2) -> s1.getName().toLowerCase().compareTo(s2.getName().toLowerCase());
+
     private final Datastore datastore;
 
     public SponsorService() {
