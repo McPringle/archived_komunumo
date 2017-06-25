@@ -58,7 +58,7 @@
         <header>
             <nav>
                 <a href="">Sigs</a>
-                <a href="/" class="active">Home</a>
+                <a href="/">Home</a>
                 <a href="/events">Events</a>
                 <a href="">Benefits</a>
                 <a href="">About</a>
@@ -76,7 +76,25 @@
 
     <script>
         Polymer({
-            is: 'coma-header'
+            is: 'coma-header',
+            properties: {
+                activeNavigation: {
+                    type: String,
+                    value: '',
+                    observer: '_navChanged'
+                }
+            },
+            _navChanged: function(newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    if (oldVal !== undefined) {
+                        let oldActive = this.$$('a.active');
+                        oldActive.classList.remove('active');
+                    }
+                    let query = 'a[href="/' + newVal + '"]';
+                    let newActive = this.$$(query);
+                    newActive.classList.add('active');
+                }
+            }
         });
     </script>
 </dom-module>

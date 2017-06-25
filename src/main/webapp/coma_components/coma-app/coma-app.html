@@ -32,7 +32,7 @@
                 tail="{{subroute}}"></app-route>
 
         <paper-material elevation="5">
-            <coma-header></coma-header>
+            <coma-header active-navigation="[[routeData.view]]"></coma-header>
             <hr />
             <iron-pages selected="[[routeData.view]]" attr-for-selected="name">
                 <coma-eventlist name="events"></coma-eventlist>
