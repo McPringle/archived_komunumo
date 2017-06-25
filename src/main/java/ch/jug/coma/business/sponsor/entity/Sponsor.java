@@ -32,6 +32,7 @@ public class Sponsor {
     @Id String id;
     @NotNull String name;
     @NotNull String logo;
+    @NotNull String description;
     @NotNull String website;
     @NotNull Level level;
 
