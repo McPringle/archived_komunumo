@@ -32,7 +32,7 @@
             <h3>[[_capitalizeFirstLetter(level)]] Sponsors</h3>
             <iron-ajax auto url="[[rootPath]]api/sponsors/[[level]]" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
             <template is="dom-repeat" items="[[ajaxResponse]]">
-                <a href="[[item.website]]"><span style="background-image: url('[[rootPath]]images/sponsors/[[item.id]].png');" alt="[[item.name]]" title="[[item.name]]" /></a>
+                <a href="[[item.website]]"><span style="background-image: url('[[item.logo]]');" alt="[[item.name]]" title="[[item.name]]" /></a>
             </template>
         </div>
     </template>
