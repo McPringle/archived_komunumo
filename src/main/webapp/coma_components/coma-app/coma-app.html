@@ -1,6 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html" />
 <link rel="import" href="../../bower_components/paper-styles/typography.html"/>
 <link rel="import" href="../../bower_components/paper-material/paper-material.html"/>
+<link rel="import" href="../../bower_components/app-route/app-location.html" />
+<link rel="import" href="../../bower_components/app-route/app-route.html" />
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html" />
 <link rel="import" href="../coma-header/coma-header.html" />
 <link rel="import" href="../coma-home/coma-home.html" />
 <link rel="import" href="../coma-eventlist/coma-eventlist.html" />
@@ -21,10 +24,20 @@
             }
         </style>
 
+        <app-location route="{{route}}"></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:view"
+                data="{{routeData}}"
+                tail="{{subroute}}"></app-route>
+
         <paper-material elevation="5">
             <coma-header></coma-header>
             <hr />
+            <iron-pages selected="[[routeData.view]]" attr-for-selected="name">
+                <coma-eventlist name="events"></coma-eventlist>
                 <coma-home name=""></coma-home>
+            </iron-pages>
             <hr />
             <coma-footer></coma-footer>
         </paper-material>
