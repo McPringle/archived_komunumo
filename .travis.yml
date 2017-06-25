@@ -23,6 +23,10 @@ addons:
     packages:
       - oracle-java8-installer
 
+before_install:
+  - npm install -g bower
+  - bower install -p
+
 after_success:
   - docker build -t jugswitzerland/coma .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
