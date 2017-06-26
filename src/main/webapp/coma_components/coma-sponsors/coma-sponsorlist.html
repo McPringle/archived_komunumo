@@ -47,14 +47,14 @@
             <h3>[[_capitalizeFirstLetter(level)]] Sponsors</h3>
 
             <template is="dom-if" if="[[_checkDisplay(display, 'logos')]]">
-                <iron-ajax auto url="[[rootPath]]api/sponsors/[[level]]" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
+                <iron-ajax auto url="[[rootPath]]api/sponsors/[[level]]/active" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
                 <template is="dom-repeat" items="[[ajaxResponse]]">
                     <a href="[[item.website]]"><span style="background-image: url('[[item.logo]]');" alt="[[item.name]]" title="[[item.name]]" /></a>
                 </template>
             </template>
 
             <template is="dom-if" if="[[_checkDisplay(display, 'details')]]">
-                <iron-ajax auto url="[[rootPath]]api/sponsors/[[level]]" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
+                <iron-ajax auto url="[[rootPath]]api/sponsors/[[level]]/active" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
                 <template is="dom-repeat" items="[[ajaxResponse]]">
                     <div class="detail">
                         <a href="[[item.website]]"><img class="logo" src="[[item.logo]]" align="right" alt="[[item.name]]" title="[[item.name]]" /><h4>[[item.name]]</h4></a>
