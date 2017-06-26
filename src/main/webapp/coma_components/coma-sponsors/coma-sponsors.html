@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html" />
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"/>
+<link rel="import" href="coma-sponsorlist.html" />
 
 <!-- max size for sponsor logo: 200x80 -->
 
@@ -10,30 +10,50 @@
                 color: #333333;
             }
 
-            h3 {
-                font-size: 1em;
-                margin-bottom: 0;
-                text-decoration: underline;
+            h2 {
+                display: inline-block;
+                font-size: 2em;
+                margin-top: 1em;
                 text-transform: uppercase;
+                vertical-align: top;
+                width: 225px;
             }
 
-            span {
-                background-position: center;
-                background-repeat: no-repeat;
-                border-bottom: 1px solid #bfbfbf;
+            #sponsors {
                 display: inline-block;
-                height: 100px;
-                margin-right: 10px;
-                width: 210px;
+                margin-top: 2em;
+                max-width: calc(100% - 235px);
+                vertical-align: top;
+            }
+
+            #sponsors h2 {
+                margin-bottom: 0;
+                margin-top: 0;
+                width: auto;
+            }
+
+            #sponsors p {
+                border-bottom: 1px solid #bfbfbf;
+                font-weight: bold;
+                max-width: 620px;
+                padding-bottom: 1em;
             }
         </style>
 
-        <div>
-            <h3>[[_capitalizeFirstLetter(level)]] Sponsors</h3>
-            <iron-ajax auto url="[[rootPath]]api/sponsors/[[level]]" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
-            <template is="dom-repeat" items="[[ajaxResponse]]">
-                <a href="[[item.website]]"><span style="background-image: url('[[item.logo]]');" alt="[[item.name]]" title="[[item.name]]" /></a>
+        <h2>Sponsors</h2>
+        <div id="sponsors">
+            <template is="dom-if" if="[[_checkDisplay(display, 'details')]]">
+                <h2>JUG Switzerland Sponsors</h2>
+                <p>
+                    The JUG Switzerland is supported by industry sponsors. We appreciate their commitment to the
+                    JUG Switzerland and we greatly value their active contribution to the JAVA software and technology
+                    community.
+                </p>
             </template>
+
+            <coma-sponsorlist level="platin" display="[[display]]"></coma-sponsorlist>
+            <coma-sponsorlist level="gold" display="[[display]]"></coma-sponsorlist>
+            <coma-sponsorlist level="silver" display="[[display]]"></coma-sponsorlist>
         </div>
     </template>
 
@@ -41,13 +61,14 @@
         Polymer({
             is: 'coma-sponsors',
             properties: {
-                level: {
+                display: {
                     type: String,
-                    value: ''
+                    value: 'logos'
                 }
             },
-            _capitalizeFirstLetter(level) {
-                return level.charAt(0).toUpperCase() + level.slice(1);
+            _checkDisplay(display, value) {
+                let result = display === value;
+                return result;
             }
         });
     </script>

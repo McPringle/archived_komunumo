@@ -26,6 +26,7 @@
     "paper-card": "PolymerElements/paper-card#^2.0.0",
     "paper-button-group": "Protoss78/paper-button-group#^1.0.0",
     "app-route": "PolymerElements/app-route#^2.0.0",
-    "iron-pages": "PolymerElements/iron-pages#^2.0.0"
+    "iron-pages": "PolymerElements/iron-pages#^2.0.0",
+    "marked-element": "PolymerElements/marked-element#^2.1.1"
   }
 }

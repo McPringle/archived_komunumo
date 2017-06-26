@@ -3,34 +3,7 @@
 
 <dom-module id="coma-footer">
     <template>
-        <style>
-            * {
-                color: #333333;
-            }
-
-            h2 {
-                display: inline-block;
-                font-size: 2em;
-                margin-top: 1em;
-                text-transform: uppercase;
-                vertical-align: top;
-                width: 225px;
-            }
-
-            #sponsors {
-                display: inline-block;
-                margin-top: 2em;
-                max-width: calc(100% - 235px);
-                vertical-align: top;
-            }
-        </style>
-
-        <h2>Sponsors</h2>
-        <div id="sponsors">
-            <coma-sponsors level="platin"></coma-sponsors>
-            <coma-sponsors level="gold"></coma-sponsors>
-            <coma-sponsors level="silver"></coma-sponsors>
-        </div>
+        <coma-sponsors display="logos"></coma-sponsors>
     </template>
 
     <script>

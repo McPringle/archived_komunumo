@@ -7,6 +7,7 @@
 <link rel="import" href="../coma-header/coma-header.html" />
 <link rel="import" href="../coma-home/coma-home.html" />
 <link rel="import" href="../coma-eventlist/coma-eventlist.html" />
+<link rel="import" href="../coma-sponsors/coma-sponsors.html" />
 <link rel="import" href="../coma-footer/coma-footer.html" />
 
 <dom-module id="coma-app">
@@ -36,6 +37,7 @@
             <hr />
             <iron-pages selected="[[routeData.view]]" attr-for-selected="name">
                 <coma-eventlist name="events"></coma-eventlist>
+                <coma-sponsors name="sponsors" display="details"></coma-sponsors>
                 <coma-home name=""></coma-home>
             </iron-pages>
             <hr />
