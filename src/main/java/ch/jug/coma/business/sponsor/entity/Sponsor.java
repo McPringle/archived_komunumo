@@ -35,5 +35,6 @@ public class Sponsor {
     @NotNull String description;
     @NotNull String website;
     @NotNull Level level;
+    @NotNull Boolean active;
 
 }

@@ -51,10 +51,22 @@ public class SponsorService {
                 .collect(Collectors.toList());
     }
 
+    public List<Sponsor> readActiveSponsors() {
+        return readAllSponsors().stream()
+                .filter(Sponsor::getActive)
+                .collect(Collectors.toList());
+    }
+
     public List<Sponsor> readSponsorsWithLevel(final Level level) {
         return readAllSponsors().stream()
                 .filter(s -> s.getLevel().equals(level))
                 .sorted(sortByName)
+                .collect(Collectors.toList());
+    }
+
+    public List<Sponsor> readActiveSponsorsWithLevel(final Level level) {
+        return readSponsorsWithLevel(level).stream()
+                .filter(Sponsor::getActive)
                 .collect(Collectors.toList());
     }
 
