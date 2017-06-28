@@ -1,0 +1,119 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../../bower_components/paper-button-group/paper-button-group.html" />
+<link rel="import" href="../../bower_components/paper-button/paper-button.html" />
+<link rel="import" href="../../bower_components/marked-element/marked-element.html" />
+
+<dom-module id="coma-sigs">
+    <template>
+        <style>
+            * {
+                color: #333333;
+            }
+
+            header {
+                display: inline-block;
+                vertical-align: top;
+                width: 225px;
+            }
+
+            header paper-button {
+                border-bottom: 1px solid #bfbfbf;
+                display: block;
+                margin-right: 1em;
+                padding: 0.5em;
+                text-transform: none;
+            }
+
+            header paper-button:hover, header paper-button.iron-selected {
+                background-color: #f3f3f3;
+            }
+
+            header paper-button.iron-selected {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            h2, h3, h4 {
+                font-size: 2em;
+                margin-top: 1em;
+                text-transform: uppercase;
+            }
+
+            h3 {
+                margin-bottom: 0.8em;
+                margin-top: 0;
+            }
+
+            h4 {
+                font-size: 1.5em;
+                margin-bottom: 0.5em;
+                margin-top: 0.5em;
+            }
+
+            a {
+                color: #9C0523;
+                font-weight: bold;
+                text-decoration: none;
+            }
+
+            #sigs {
+                display: inline-block;
+                margin-top: 2em;
+                max-width: calc(100% - 235px);
+            }
+        </style>
+
+        <iron-ajax auto url="[[rootPath]]api/sigs" handle-as="json" last-response="{{sigs}}"></iron-ajax>
+
+        <header>
+            <h2>SIGS</h2>
+            <paper-button-group attr-for-selected="value" selected="{{sig}}">
+                <paper-button value="">About SIGs</paper-button>
+                <template is="dom-repeat" items="[[sigs]]">
+                    <paper-button value="[[item.id]]">[[item.name]]</paper-button>
+                </template>
+            </paper-button-group>
+        </header>
+
+        <div id="sigs">
+            <h3>Special Interest Groups</h3>
+            <iron-pages selected="[[sig]]" attr-for-selected="name">
+                <template is="dom-repeat" items="[[sigs]]">
+                    <div name="[[item.id]]">
+                        <h4>Mission</h4>
+                        <marked-element>
+                            <div slot="markdown-html"></div>
+                            <script type="text/markdown">[[item.mission]]</script>
+                        </marked-element>
+
+                        <h4>Contact</h4>
+                        <template is="dom-repeat" items="[[item.contacts]]">
+                            <a href="mailto:[[item.email]]">[[item.firstname]] [[item.lastname]]</a>, [[item.company]]<br />
+                        </template>
+                    </div>
+                </template>
+                <div name="">
+                    <h4>About</h4>
+                    <p>JUG Switzerland Special Interest Groups (SIGs) are the answer to members interested in the gory details of a certain Java tool or technology. A JUG Switzerland SIG is driven by an expert not member of the JUG Switzerland board, while a board member acts as the official JUG Switzerland contact for the SIG. So SIGs can benefit from the JUG Switzerland infrastructure and experience.</p>
+                    <p>By joining a JUG Switzerland SIG (which is of course free for JUG Switzerland members), you can have fruitful exchanges of ideas with other members interested in that particular technology.</p>
+                    <p>If you feel like founding a new SIG, please get in contact with the board and we will help you in setting things up!</p>
+                </div>
+            </iron-pages>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'coma-sigs',
+            properties: {
+                route: {
+                    type: Object
+                },
+                sig: {
+                    type: String,
+                    value: ''
+                }
+            }
+        });
+    </script>
+</dom-module>

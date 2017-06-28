@@ -7,6 +7,7 @@
 <link rel="import" href="../coma-header/coma-header.html" />
 <link rel="import" href="../coma-home/coma-home.html" />
 <link rel="import" href="../coma-eventlist/coma-eventlist.html" />
+<link rel="import" href="../coma-sigs/coma-sigs.html" />
 <link rel="import" href="../coma-sponsors/coma-sponsors.html" />
 <link rel="import" href="../coma-footer/coma-footer.html" />
 
@@ -16,9 +17,11 @@
             :host {
                 display: block;
             }
+
             * {
                 font-family: 'Roboto', sans-serif;
             }
+
             paper-material {
                 margin: 2em;
                 padding: 0.5em 1em 0.5em 1em;
@@ -37,6 +40,7 @@
             <hr />
             <iron-pages selected="[[routeData.view]]" attr-for-selected="name">
                 <coma-eventlist name="events"></coma-eventlist>
+                <coma-sigs name="sigs" route="{{subroute}}"></coma-sigs>
                 <coma-sponsors name="sponsors" display="details"></coma-sponsors>
                 <coma-home name=""></coma-home>
             </iron-pages>
