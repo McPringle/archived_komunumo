@@ -70,4 +70,10 @@ public class SponsorService {
                 .collect(Collectors.toList());
     }
 
+    public Sponsor updateSponsor(final String id, final Sponsor sponsor) {
+        final Sponsor sponsorToUpdate = sponsor.toBuilder().id(id).build();
+        this.datastore.merge(sponsorToUpdate);
+        return sponsorToUpdate;
+    }
+
 }
