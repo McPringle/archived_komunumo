@@ -49,6 +49,8 @@ dependencies {
     compile (
             "com.google.code.gson:gson:$gsonVersion",
             "org.zalando.phrs:jersey-media-json-gson:$jerseyMediaJsonGsonVersion",
+            "org.slf4j:slf4j-api:$slf4jVersion",
+            "org.slf4j:slf4j-simple:$slf4jVersion",
             "pl.setblack:airomem-core:$airomemVersion"
     )
     testCompile (
