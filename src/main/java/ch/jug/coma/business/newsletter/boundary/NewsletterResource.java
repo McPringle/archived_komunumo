@@ -48,7 +48,7 @@ public class NewsletterResource {
     @POST
     @Path("subscription")
     public Response subscribe(@Valid final Subscription subscription, @Context final UriInfo info) {
-        final String id = service.subscribe(subscription);
+        final String id = service.create(subscription).getId();
         final URI uri = info.getAbsolutePathBuilder().path(File.separator + id).build();
         return Response.created(uri).build();
     }
