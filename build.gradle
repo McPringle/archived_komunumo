@@ -49,7 +49,8 @@ dependencies {
     compile (
             "com.google.code.gson:gson:$gsonVersion",
             "org.mongodb.morphia:morphia:$morphiaVersion",
-            "org.zalando.phrs:jersey-media-json-gson:$jerseyMediaJsonGsonVersion"
+            "org.zalando.phrs:jersey-media-json-gson:$jerseyMediaJsonGsonVersion",
+            "pl.setblack:airomem-core:$airomemVersion"
     )
     testCompile (
             "com.google.guava:guava:$guavaVersion",
