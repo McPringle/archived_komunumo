@@ -19,42 +19,39 @@ package ch.jug.coma.business.sigs.control;
 
 import ch.jug.coma.PersistenceManager;
 import ch.jug.coma.business.sigs.entity.SIG;
-import com.mongodb.WriteResult;
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.query.Query;
+import pl.setblack.airomem.core.PersistenceController;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
-import java.util.Comparator;
+import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Singleton
 public class SIGService {
 
-    private Comparator<SIG> sortByName = (s1, s2) -> s1.getName().toLowerCase().compareTo(s2.getName().toLowerCase());
+    private PersistenceController<SIGRepository> controller;
 
-    private final Datastore datastore;
-
-    public SIGService() {
-        this.datastore = PersistenceManager.getDatastore();
+    @PostConstruct
+    public void setupResources() {
+        controller = PersistenceManager.createController(SIG.class, SIGRepository::new);
     }
 
-    public List<SIG> readAllSIGs() {
-        return this.datastore.createQuery(SIG.class).asList().stream()
-                .sorted(sortByName)
-                .collect(Collectors.toList());
+    @PreDestroy
+    public void cleanupResources() {
+        controller.close();
     }
 
-    public String createSIG(final SIG sig) {
-        this.datastore.save(sig);
-        return sig.getId();
+    public SIG create(@NotNull final SIG sig) {
+        return controller.executeAndQuery(mgr -> mgr.create(sig));
     }
 
-    public void deleteSIG(final String id) {
-        final Query<SIG> query = datastore.createQuery(SIG.class)
-                .filter("_id =", new ObjectId(id));
-        final WriteResult result = this.datastore.delete(query);
+    public List<SIG> readAll() {
+        return controller.query(SIGRepository::readAll);
+    }
+
+    public void delete(@NotNull final String id) {
+        controller.execute(mgr -> mgr.delete(id));
     }
 
 }

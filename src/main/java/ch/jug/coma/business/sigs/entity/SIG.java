@@ -19,17 +19,18 @@ package ch.jug.coma.business.sigs.entity;
 
 import lombok.Builder;
 import lombok.Value;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Value
 @Builder(toBuilder = true)
-@Entity
-public class SIG {
+public class SIG implements Serializable {
 
-    @Id String id;
+    private static final long serialVersionUID = 1L;
+
+    String id;
+    Long version;
     String name;
     String mission;
     List<Contact> contacts;
