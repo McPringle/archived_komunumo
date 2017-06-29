@@ -19,17 +19,18 @@ package ch.jug.coma.business.sponsor.entity;
 
 import lombok.Builder;
 import lombok.Value;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Value
 @Builder(toBuilder = true)
-@Entity
-public class Sponsor {
+public class Sponsor implements Serializable {
 
-    @Id String id;
+    private static final long serialVersionUID = 1L;
+
+    String id;
+    Long version;
     @NotNull String name;
     @NotNull String logo;
     @NotNull String description;
