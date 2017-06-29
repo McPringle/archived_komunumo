@@ -19,18 +19,19 @@ package ch.jug.coma.business.event.entity;
 
 import lombok.Builder;
 import lombok.Value;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Value
 @Builder(toBuilder = true)
-@Entity
-public class Event {
+public class Event implements Serializable {
 
-    @Id String id;
+    private static final long serialVersionUID = 1L;
+
+    String id;
+    Long version;
     String title;
     String subtitle;
     String speaker;
