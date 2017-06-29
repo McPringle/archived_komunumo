@@ -17,52 +17,32 @@
  */
 package ch.jug.coma;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import lombok.Synchronized;
 import lombok.experimental.UtilityClass;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
-import org.mongodb.morphia.mapping.Mapper;
+import lombok.extern.slf4j.Slf4j;
+import pl.setblack.airomem.core.PersistenceController;
+import pl.setblack.airomem.core.builders.PrevaylerBuilder;
 
+import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.function.Supplier;
+
+@Slf4j
 @UtilityClass
 public class PersistenceManager {
 
-    private static Datastore datastore = null;
+    public static <T extends Serializable> PersistenceController<T> createController(
+            final Class<? extends Serializable> clazz, final Supplier<T> constructor) {
 
-    @Synchronized
-    private static void init() {
-        if (datastore == null) {
-            final String dbUsername = System.getenv("db_username");
-            final String dbPassword = System.getenv("db_password");
-            final String dbHost = System.getenv("db_host");
-            final int dbPort = Integer.parseInt(System.getenv("db_port"));
-            final String dbName = System.getenv("db_name");
+        final String homeDir = System.getProperty("user.home");
+        final Path path = Paths.get(homeDir, ".coma", "data", clazz.getName());
+        log.info("Using persistence store '{}' for entity '{}'.", path, clazz.getName());
 
-            final String dbURI = String.format(
-                    "mongodb://%s:%s@%s:%d/%s",
-                    dbUsername, dbPassword, dbHost, dbPort, dbName
-            );
-
-            final MongoClientURI mongoClientURI = new MongoClientURI(dbURI);
-            final MongoClient mongoClient = new MongoClient(mongoClientURI);
-
-            final Morphia morphia = new Morphia();
-            final Mapper mapper = morphia.getMapper();
-            mapper.getOptions().setObjectFactory(new CustomMorphiaObjectFactory());
-            morphia.mapPackage("ch.jug.coma.business.event.entity");
-
-            datastore = morphia.createDatastore(mongoClient, dbName);
-            datastore.ensureIndexes();
-        }
-    }
-
-    public static <T> Datastore getDatastore() {
-        if (datastore == null) {
-            init();
-        }
-
-        return datastore;
+        return PrevaylerBuilder
+                .<T>newBuilder()
+                .withFolder(path)
+                .useSupplier(constructor)
+                .build();
     }
 
 }
