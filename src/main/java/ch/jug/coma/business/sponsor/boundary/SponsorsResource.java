@@ -52,38 +52,41 @@ public class SponsorsResource {
 
     @POST
     public Response createSponsor(@Valid final Sponsor sponsor, @Context final UriInfo info) {
-        final String id = this.service.createSponsor(sponsor);
+        final String id = this.service.create(sponsor).getId();
         final URI uri = info.getAbsolutePathBuilder().path(File.separator + id).build();
         return Response.created(uri).build();
     }
 
     @GET
     public List<Sponsor> readAllSponsors() {
-        return this.service.readAllSponsors();
+        return this.service.readAll();
     }
 
     @GET
     @Path("active")
     public List<Sponsor> readActiveSponsors() {
-        return this.service.readActiveSponsors();
+        return this.service.readActive();
     }
 
     @GET
     @Path("{level}")
     public List<Sponsor> readSponsorsWithLevel(@PathParam("level") final String level) {
-        return this.service.readSponsorsWithLevel(Level.fromString(level));
+        return this.service.readWithLevel(Level.fromString(level));
     }
 
     @GET
     @Path("{level}/active")
     public List<Sponsor> readActiveSponsorsWithLevel(@PathParam("level") final String level) {
-        return this.service.readActiveSponsorsWithLevel(Level.fromString(level));
+        return this.service.readActiveWithLevel(Level.fromString(level));
     }
 
     @PUT
     @Path("{id}")
     public Sponsor updateSponsor(@PathParam("id") final String id, @Valid final Sponsor sponsor, @Context final UriInfo info) {
-        return this.service.updateSponsor(id, sponsor);
+        final Sponsor sponsorToUpdate = sponsor.toBuilder()
+                .id(id)
+                .build();
+        return this.service.update(sponsorToUpdate);
     }
 
 }

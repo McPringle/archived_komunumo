@@ -51,20 +51,20 @@ public class SIGResource {
 
     @POST
     public Response createSIG(@Valid final SIG sig, @Context final UriInfo info) {
-        final String id = this.service.createSIG(sig);
+        final String id = this.service.create(sig).getId();
         final URI uri = info.getAbsolutePathBuilder().path(File.separator + id).build();
         return Response.created(uri).build();
     }
 
     @GET
     public List<SIG> readAllSIGs() {
-        return this.service.readAllSIGs();
+        return this.service.readAll();
     }
 
     @DELETE
     @Path("{id}")
     public Response deleteSIG(@PathParam("id") final String id) {
-        this.service.deleteSIG(id);
+        this.service.delete(id);
         return Response.noContent().build();
     }
 

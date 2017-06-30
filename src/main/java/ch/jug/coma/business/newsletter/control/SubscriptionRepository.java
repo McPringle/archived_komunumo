@@ -15,31 +15,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package ch.jug.coma.business.event.entity;
+package ch.jug.coma.business.newsletter.control;
 
-import lombok.Builder;
-import lombok.Value;
+import ch.jug.coma.business.newsletter.entity.Subscription;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
-@Value
-@Builder(toBuilder = true)
-public class Event implements Serializable {
+class SubscriptionRepository implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    String id;
-    Long version;
-    String title;
-    String subtitle;
-    String speaker;
-    String company;
-    List<String> tags;
-    String description;
-    LocalDateTime time;
-    String city;
-    String venue;
+    private final Map<String, Subscription> subscriptions = new ConcurrentHashMap<>();
+
+    Subscription create(@NotNull final Subscription subscription) {
+        final String id = UUID.randomUUID().toString();
+        final long version = subscription.hashCode();
+        final Subscription subscriptionToCreate = subscription.toBuilder()
+                .id(id)
+                .version(version)
+                .build();
+        subscriptions.put(id, subscriptionToCreate);
+        return subscriptionToCreate;
+
+    }
 
 }

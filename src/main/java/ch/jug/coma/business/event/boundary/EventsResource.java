@@ -52,7 +52,7 @@ public class EventsResource {
 
     @POST
     public Response createEvent(@Valid final Event event, @Context final UriInfo info) {
-        final String id = this.service.createEvent(event);
+        final String id = this.service.create(event).getId();
         final URI uri = info.getAbsolutePathBuilder().path(File.separator + id).build();
         return Response.created(uri).build();
     }
@@ -60,14 +60,14 @@ public class EventsResource {
     @GET
     public List<Event> readAllEvents(@QueryParam("city") final String city) {
         return city != null && !city.isEmpty()
-                ? this.service.readEventsForCity(city)
-                : this.service.readAllEvents();
+                ? this.service.readWithCity(city)
+                : this.service.readAll();
     }
 
     @DELETE
     @Path("{id}")
     public Response deleteEvent(@PathParam("id") final String id) {
-        this.service.deleteEvent(id);
+        this.service.delete(id);
         return Response.noContent().build();
     }
 

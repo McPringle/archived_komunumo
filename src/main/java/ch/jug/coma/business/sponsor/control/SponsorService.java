@@ -20,60 +20,59 @@ package ch.jug.coma.business.sponsor.control;
 import ch.jug.coma.PersistenceManager;
 import ch.jug.coma.business.sponsor.entity.Level;
 import ch.jug.coma.business.sponsor.entity.Sponsor;
-import org.mongodb.morphia.Datastore;
+import pl.setblack.airomem.core.PersistenceController;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
-import java.util.Comparator;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Singleton
 public class SponsorService {
 
-    private Comparator<Sponsor> sortByLevel = (s1, s2) -> s1.getLevel().compareTo(s2.getLevel());
-    private Comparator<Sponsor> sortByName = (s1, s2) -> s1.getName().toLowerCase().compareTo(s2.getName().toLowerCase());
 
-    private final Datastore datastore;
+    private PersistenceController<SponsorRepository> controller;
 
-    public SponsorService() {
-        this.datastore = PersistenceManager.getDatastore();
+    @PostConstruct
+    public void setupResources() {
+        controller = PersistenceManager.createController(Sponsor.class, SponsorRepository::new);
     }
 
-    public String createSponsor(final Sponsor sponsor) {
-        this.datastore.save(sponsor);
-        return sponsor.getId();
+    @PreDestroy
+    public void cleanupResources() {
+        controller.close();
     }
 
-    public List<Sponsor> readAllSponsors() {
-        return this.datastore.createQuery(Sponsor.class).asList().stream()
-                .sorted(sortByLevel
-                        .thenComparing(sortByName))
-                .collect(Collectors.toList());
+    public Sponsor create(@NotNull final Sponsor sponsor) {
+        return controller.executeAndQuery(mgr -> mgr.create(sponsor));
     }
 
-    public List<Sponsor> readActiveSponsors() {
-        return readAllSponsors().stream()
+    public List<Sponsor> readAll() {
+        return controller.query(SponsorRepository::readAll);
+    }
+
+    public List<Sponsor> readActive() {
+        return readAll().stream()
                 .filter(Sponsor::getActive)
                 .collect(Collectors.toList());
     }
 
-    public List<Sponsor> readSponsorsWithLevel(final Level level) {
-        return readAllSponsors().stream()
+    public List<Sponsor> readWithLevel(final Level level) {
+        return readAll().stream()
                 .filter(s -> s.getLevel().equals(level))
-                .sorted(sortByName)
                 .collect(Collectors.toList());
     }
 
-    public List<Sponsor> readActiveSponsorsWithLevel(final Level level) {
-        return readSponsorsWithLevel(level).stream()
+    public List<Sponsor> readActiveWithLevel(final Level level) {
+        return readWithLevel(level).stream()
                 .filter(Sponsor::getActive)
                 .collect(Collectors.toList());
     }
 
-    public Sponsor updateSponsor(final String id, final Sponsor sponsor) {
-        final Sponsor sponsorToUpdate = sponsor.toBuilder().id(id).build();
-        this.datastore.merge(sponsorToUpdate);
-        return sponsorToUpdate;
+    public Sponsor update(@NotNull final Sponsor sponsor) {
+        return controller.executeAndQuery(mgr -> mgr.update(sponsor));
     }
 
 }

@@ -19,42 +19,51 @@ package ch.jug.coma.business.event.control;
 
 import ch.jug.coma.PersistenceManager;
 import ch.jug.coma.business.event.entity.Event;
-import com.mongodb.WriteResult;
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.query.Query;
+import pl.setblack.airomem.core.PersistenceController;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Singleton
 public class EventService {
 
-    private final Datastore datastore;
+    private PersistenceController<EventRepository> controller;
 
-    public EventService() {
-        this.datastore = PersistenceManager.getDatastore();
+    @PostConstruct
+    public void setupResources() {
+        controller = PersistenceManager.createController(Event.class, EventRepository::new);
     }
 
-    public List<Event> readAllEvents() {
-        return this.datastore.createQuery(Event.class).asList();
+    @PreDestroy
+    public void cleanupResources() {
+        controller.close();
     }
 
-    public List<Event> readEventsForCity(final String city) {
-        return readAllEvents().stream()
+    public Event create(@NotNull final Event event) {
+        return controller.executeAndQuery(mgr -> mgr.create(event));
+    }
+
+    public List<Event> readAll() {
+        return controller.query(EventRepository::readAll);
+    }
+
+    public Optional<Event> readWithId(@NotNull final String id) {
+        return controller.query(ctrl -> ctrl.readWithId(id));
+    }
+
+    public List<Event> readWithCity(final String city) {
+        return readAll().stream()
                 .filter(e -> e.getCity().equalsIgnoreCase(city))
                 .collect(Collectors.toList());
     }
 
-    public String createEvent(final Event event) {
-        this.datastore.save(event);
-        return event.getId();
+    public void delete(@NotNull final String id) {
+        controller.execute(mgr -> mgr.delete(id));
     }
 
-    public void deleteEvent(final String id) {
-        final Query<Event> query = datastore.createQuery(Event.class)
-                .filter("_id =", new ObjectId(id));
-        final WriteResult result = this.datastore.delete(query);
-    }
 }

@@ -18,23 +18,31 @@
 package ch.jug.coma.business.newsletter.control;
 
 import ch.jug.coma.PersistenceManager;
+import ch.jug.coma.business.event.entity.Event;
 import ch.jug.coma.business.newsletter.entity.Subscription;
-import org.mongodb.morphia.Datastore;
+import pl.setblack.airomem.core.PersistenceController;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
 
 @Singleton
 public class NewsletterService {
 
-    private final Datastore datastore;
+    private PersistenceController<SubscriptionRepository> controller;
 
-    public NewsletterService() {
-        this.datastore = PersistenceManager.getDatastore();
+    @PostConstruct
+    public void setupResources() {
+        controller = PersistenceManager.createController(Subscription.class, SubscriptionRepository::new);
     }
 
-    public String subscribe(final Subscription subscription) {
-        this.datastore.save(subscription);
-        return subscription.getId();
+    @PreDestroy
+    public void cleanupResources() {
+        controller.close();
+    }
+
+    public Subscription create(final Subscription subscription) {
+        return controller.executeAndQuery(mgr -> mgr.create(subscription));
     }
 
 }
