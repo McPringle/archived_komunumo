@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package ch.jug.komunumo.business.sigs.boundary;
+package ch.jug.komunumo.business.sig.boundary;
 
-import ch.jug.komunumo.business.sigs.control.SIGService;
-import ch.jug.komunumo.business.sigs.entity.SIG;
+import ch.jug.komunumo.business.sig.control.SIGService;
+import ch.jug.komunumo.business.sig.entity.SIG;
 
 import javax.inject.Inject;
 import javax.validation.Valid;

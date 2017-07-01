@@ -20,7 +20,7 @@ package ch.jug.komunumo.business.backup.control;
 import ch.jug.komunumo.business.backup.entity.BackupData;
 import ch.jug.komunumo.business.event.control.EventService;
 import ch.jug.komunumo.business.newsletter.control.NewsletterService;
-import ch.jug.komunumo.business.sigs.control.SIGService;
+import ch.jug.komunumo.business.sig.control.SIGService;
 import ch.jug.komunumo.business.sponsor.control.SponsorService;
 
 import javax.inject.Inject;

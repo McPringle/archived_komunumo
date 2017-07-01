@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package ch.jug.komunumo.business.sigs.control;
+package ch.jug.komunumo.business.sig.control;
 
-import ch.jug.komunumo.business.sigs.entity.SIG;
+import ch.jug.komunumo.business.sig.entity.SIG;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -34,7 +34,7 @@ class SIGRepository implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Map<String, SIG> siga = new ConcurrentHashMap<>();
+    private final Map<String, SIG> sigs = new ConcurrentHashMap<>();
 
     SIG create(@NotNull final SIG sig) {
         final String id = UUID.randomUUID().toString();
@@ -43,21 +43,21 @@ class SIGRepository implements Serializable {
                 .id(id)
                 .version(version)
                 .build();
-        siga.put(id, sigToCreate);
+        sigs.put(id, sigToCreate);
         return sigToCreate;
     }
 
     List<SIG> readAll() {
-        return siga.values().stream()
+        return sigs.values().stream()
                 .sorted(Comparator.comparing(SIG::getName))
                 .collect(toList());
     }
 
     Optional<SIG> readWithId(@NotNull final String id) {
-        return Optional.ofNullable(siga.get(id));
+        return Optional.ofNullable(sigs.get(id));
     }
 
     void delete(@NotNull final String id) {
-        siga.remove(id);
+        sigs.remove(id);
     }
 }

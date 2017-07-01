@@ -15,23 +15,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package ch.jug.komunumo.business.sigs.control;
+package ch.jug.komunumo.business.sig.control;
 
 import ch.jug.komunumo.PersistenceManager;
-import ch.jug.komunumo.business.backup.entity.BackupData;
-import ch.jug.komunumo.business.sigs.entity.SIG;
+import ch.jug.komunumo.business.sig.entity.SIG;
 import pl.setblack.airomem.core.PersistenceController;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Singleton
-public class SIGService implements BackupData {
+public class SIGService {
 
     private PersistenceController<SIGRepository> controller;
 
@@ -57,10 +54,4 @@ public class SIGService implements BackupData {
         controller.execute(mgr -> mgr.delete(id));
     }
 
-    @Override
-    public List<Serializable> backup() {
-        return readAll().stream()
-                .map(e -> (Serializable) e)
-                .collect(Collectors.toList());
-    }
 }
