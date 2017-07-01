@@ -41,7 +41,6 @@ public class BackupService {
                          final SIGService sigService,
                          final SponsorService sponsorService) {
         this.services.put("event", eventService);
-        this.services.put("newsletter", newsletterService);
         this.services.put("sig", sigService);
         this.services.put("sponsor", sponsorService);
     }
