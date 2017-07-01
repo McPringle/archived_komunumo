@@ -18,6 +18,7 @@
 package ch.jug.coma.business.sponsor.control;
 
 import ch.jug.coma.PersistenceManager;
+import ch.jug.coma.business.backup.entity.BackupData;
 import ch.jug.coma.business.sponsor.entity.Level;
 import ch.jug.coma.business.sponsor.entity.Sponsor;
 import pl.setblack.airomem.core.PersistenceController;
@@ -26,11 +27,12 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Singleton
-public class SponsorService {
+public class SponsorService implements BackupData {
 
 
     private PersistenceController<SponsorRepository> controller;
@@ -75,4 +77,10 @@ public class SponsorService {
         return controller.executeAndQuery(mgr -> mgr.update(sponsor));
     }
 
+    @Override
+    public List<Serializable> backup() {
+        return readAll().stream()
+                .map(e -> (Serializable) e)
+                .collect(Collectors.toList());
+    }
 }

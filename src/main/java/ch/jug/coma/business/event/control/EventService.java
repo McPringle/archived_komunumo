@@ -18,6 +18,7 @@
 package ch.jug.coma.business.event.control;
 
 import ch.jug.coma.PersistenceManager;
+import ch.jug.coma.business.backup.entity.BackupData;
 import ch.jug.coma.business.event.entity.Event;
 import pl.setblack.airomem.core.PersistenceController;
 
@@ -25,12 +26,13 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Singleton
-public class EventService {
+public class EventService implements BackupData {
 
     private PersistenceController<EventRepository> controller;
 
@@ -64,6 +66,13 @@ public class EventService {
 
     public void delete(@NotNull final String id) {
         controller.execute(mgr -> mgr.delete(id));
+    }
+
+    @Override
+    public List<Serializable> backup() {
+        return readAll().stream()
+                .map(e -> (Serializable) e)
+                .collect(Collectors.toList());
     }
 
 }

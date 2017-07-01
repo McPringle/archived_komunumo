@@ -21,9 +21,13 @@ import ch.jug.coma.business.newsletter.entity.Subscription;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static java.util.stream.Collectors.toList;
 
 class SubscriptionRepository implements Serializable {
 
@@ -41,6 +45,12 @@ class SubscriptionRepository implements Serializable {
         subscriptions.put(id, subscriptionToCreate);
         return subscriptionToCreate;
 
+    }
+
+    List<Subscription> readAll() {
+        return subscriptions.values().stream()
+                .sorted(Comparator.comparing(Subscription::getEmail))
+                .collect(toList());
     }
 
 }

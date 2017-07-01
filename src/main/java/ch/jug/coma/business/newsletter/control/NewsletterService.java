@@ -18,16 +18,19 @@
 package ch.jug.coma.business.newsletter.control;
 
 import ch.jug.coma.PersistenceManager;
-import ch.jug.coma.business.event.entity.Event;
+import ch.jug.coma.business.backup.entity.BackupData;
 import ch.jug.coma.business.newsletter.entity.Subscription;
 import pl.setblack.airomem.core.PersistenceController;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Singleton
-public class NewsletterService {
+public class NewsletterService implements BackupData {
 
     private PersistenceController<SubscriptionRepository> controller;
 
@@ -43,6 +46,17 @@ public class NewsletterService {
 
     public Subscription create(final Subscription subscription) {
         return controller.executeAndQuery(mgr -> mgr.create(subscription));
+    }
+
+    public List<Subscription> readAll() {
+        return controller.query(SubscriptionRepository::readAll);
+    }
+
+    @Override
+    public List<Serializable> backup() {
+        return readAll().stream()
+                .map(e -> (Serializable) e)
+                .collect(Collectors.toList());
     }
 
 }
