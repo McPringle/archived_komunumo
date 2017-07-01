@@ -1,0 +1,75 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html" />
+<link rel="import" href="komunumo-sponsorlist.html" />
+
+<!-- max size for sponsor logo: 200x80 -->
+
+<dom-module id="komunumo-sponsors">
+    <template>
+        <style>
+            * {
+                color: #333333;
+            }
+
+            h2 {
+                display: inline-block;
+                font-size: 2em;
+                margin-top: 1em;
+                text-transform: uppercase;
+                vertical-align: top;
+                width: 225px;
+            }
+
+            #sponsors {
+                display: inline-block;
+                margin-top: 2em;
+                max-width: calc(100% - 235px);
+                vertical-align: top;
+            }
+
+            #sponsors h2 {
+                margin-bottom: 0;
+                margin-top: 0;
+                width: auto;
+            }
+
+            #sponsors p {
+                border-bottom: 1px solid #bfbfbf;
+                font-weight: bold;
+                max-width: 620px;
+                padding-bottom: 1em;
+            }
+        </style>
+
+        <h2>Sponsors</h2>
+        <div id="sponsors">
+            <template is="dom-if" if="[[_checkDisplay(display, 'details')]]">
+                <h2>JUG Switzerland Sponsors</h2>
+                <p>
+                    The JUG Switzerland is supported by industry sponsors. We appreciate their commitment to the
+                    JUG Switzerland and we greatly value their active contribution to the JAVA software and technology
+                    community.
+                </p>
+            </template>
+
+            <komunumo-sponsorlist level="platin" display="[[display]]"></komunumo-sponsorlist>
+            <komunumo-sponsorlist level="gold" display="[[display]]"></komunumo-sponsorlist>
+            <komunumo-sponsorlist level="silver" display="[[display]]"></komunumo-sponsorlist>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'komunumo-sponsors',
+            properties: {
+                display: {
+                    type: String,
+                    value: 'logos'
+                }
+            },
+            _checkDisplay(display, value) {
+                let result = display === value;
+                return result;
+            }
+        });
+    </script>
+</dom-module>

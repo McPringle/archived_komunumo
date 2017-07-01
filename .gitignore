@@ -1,4 +1,4 @@
-# CoMa – Open Source Community Manager
+# Komunumo – Open Source Community Manager
 # Copyright (C) 2017 Java User Group Switzerland
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 .gradle
 .idea
 build
-coma.iml
+komunumo.iml
 out
 /src/main/resources/rebel.xml
 /src/main/webapp/bower_components

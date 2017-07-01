@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../../bower_components/paper-styles/typography.html"/>
+<link rel="import" href="../../bower_components/paper-material/paper-material.html"/>
+<link rel="import" href="../../bower_components/app-route/app-location.html" />
+<link rel="import" href="../../bower_components/app-route/app-route.html" />
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html" />
+<link rel="import" href="../komunumo-header/komunumo-header.html" />
+<link rel="import" href="../komunumo-home/komunumo-home.html" />
+<link rel="import" href="../komunumo-eventlist/komunumo-eventlist.html" />
+<link rel="import" href="../komunumo-sigs/komunumo-sigs.html" />
+<link rel="import" href="../komunumo-sponsors/komunumo-sponsors.html" />
+<link rel="import" href="../komunumo-footer/komunumo-footer.html" />
+
+<dom-module id="komunumo-app">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            * {
+                font-family: 'Roboto', sans-serif;
+            }
+
+            paper-material {
+                margin: 2em;
+                padding: 0.5em 1em 0.5em 1em;
+            }
+        </style>
+
+        <app-location route="{{route}}"></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:view"
+                data="{{routeData}}"
+                tail="{{subroute}}"></app-route>
+
+        <paper-material elevation="5">
+            <komunumo-header active-navigation="[[routeData.view]]"></komunumo-header>
+            <hr />
+            <iron-pages selected="[[routeData.view]]" attr-for-selected="name">
+                <komunumo-eventlist name="events"></komunumo-eventlist>
+                <komunumo-sigs name="sigs" route="{{subroute}}"></komunumo-sigs>
+                <komunumo-sponsors name="sponsors" display="details"></komunumo-sponsors>
+                <komunumo-home name=""></komunumo-home>
+            </iron-pages>
+            <hr />
+            <komunumo-footer></komunumo-footer>
+        </paper-material>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'komunumo-app'
+        });
+    </script>
+</dom-module>

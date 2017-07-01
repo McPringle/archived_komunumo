@@ -1,7 +1,7 @@
-*CoMa*
-======
+*Komunumo*
+==========
 
-[![Build Status](https://travis-ci.org/jugswitzerland/coma.svg?branch=master)](https://travis-ci.org/jugswitzerland/coma) [![Stories in Ready](https://badge.waffle.io/jugswitzerland/coma.png?label=ready&title=ready)](http://waffle.io/jugswitzerland/coma) [![gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg)](https://gitmoji.carloscuesta.me)
+[![Build Status](https://travis-ci.org/jugswitzerland/komunumo.svg?branch=master)](https://travis-ci.org/jugswitzerland/komunumo) [![Stories in Ready](https://badge.waffle.io/jugswitzerland/komunumo.png?label=ready&title=ready)](http://waffle.io/jugswitzerland/komunumo) [![gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg)](https://gitmoji.carloscuesta.me)
 
 **Open Source Community Manager**
 
@@ -15,7 +15,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
 ## Configuration
 
-*CoMa* uses [MongoDB](https://wikipedia.org/wiki/MongoDB) to store it's data. Therefore you must provide the credentials for a running database instance through environment variables:
+*Komunumo* uses [MongoDB](https://wikipedia.org/wiki/MongoDB) to store it's data. Therefore you must provide the credentials for a running database instance through environment variables:
 
 | Environment Variable | Description |
 | -------------------- | ------------- |
@@ -27,4 +27,4 @@ You should have received a copy of the GNU Affero General Public License along w
 
 ## Throughput
 
-[![Throughput Graph](https://graphs.waffle.io/jugswitzerland/coma/throughput.svg)](https://waffle.io/jugswitzerland/coma/metrics/throughput)
+[![Throughput Graph](https://graphs.waffle.io/jugswitzerland/komunumo/throughput.svg)](https://waffle.io/jugswitzerland/komunumo/metrics/throughput)

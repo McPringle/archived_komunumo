@@ -28,9 +28,9 @@ before_install:
   - bower install -p
 
 after_success:
-  - docker build -t jugswitzerland/coma .
+  - docker build -t jugswitzerland/komunumo .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker push jugswitzerland/coma
+  - docker push jugswitzerland/komunumo
   - docker logout
 
 env:
