@@ -47,6 +47,10 @@ class SIGRepository implements Serializable {
         return sigToCreate;
     }
 
+    void restore(final SIG sig) {
+        sigs.putIfAbsent(sig.getId(), sig);
+    }
+
     List<SIG> readAll() {
         return sigs.values().stream()
                 .sorted(Comparator.comparing(SIG::getName))

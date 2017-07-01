@@ -17,7 +17,7 @@
  */
 package ch.jug.komunumo.business.backup.control;
 
-import ch.jug.komunumo.business.backup.entity.BackupData;
+import ch.jug.komunumo.business.backup.entity.BackupAndRestore;
 import ch.jug.komunumo.business.event.control.EventService;
 import ch.jug.komunumo.business.newsletter.control.NewsletterService;
 import ch.jug.komunumo.business.sig.control.SIGService;
@@ -33,25 +33,32 @@ import java.util.Map;
 @Singleton
 public class BackupService {
 
-    private Map<String, BackupData> services = new HashMap<>();
+    private Map<String, BackupAndRestore> services = new HashMap<>();
 
     @Inject
     public BackupService(final EventService eventService,
                          final NewsletterService newsletterService,
                          final SIGService sigService,
                          final SponsorService sponsorService) {
-        this.services.put("event", eventService);
-        this.services.put("sig", sigService);
-        this.services.put("sponsor", sponsorService);
+        this.services.put("Event", eventService);
+        this.services.put("SIG", sigService);
+        this.services.put("Sponsor", sponsorService);
     }
 
     public Map<String, List<Serializable>> createBackup() {
         final Map<String, List<Serializable>> data = new HashMap<>();
         for (final String key : services.keySet()) {
-            final BackupData service = services.get(key);
+            final BackupAndRestore service = services.get(key);
             data.put(key, service.backup());
         }
         return data;
+    }
+
+    public void restoreBackup(final Map<String, List<Serializable>> data) {
+        for (final String key : services.keySet()) {
+            final BackupAndRestore service = services.get(key);
+            service.restore(data.get(key));
+        }
     }
 
 }

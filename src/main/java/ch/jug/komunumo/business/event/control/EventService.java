@@ -18,7 +18,7 @@
 package ch.jug.komunumo.business.event.control;
 
 import ch.jug.komunumo.PersistenceManager;
-import ch.jug.komunumo.business.backup.entity.BackupData;
+import ch.jug.komunumo.business.backup.entity.BackupAndRestore;
 import ch.jug.komunumo.business.event.entity.Event;
 import pl.setblack.airomem.core.PersistenceController;
 
@@ -32,7 +32,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Singleton
-public class EventService implements BackupData {
+public class EventService implements BackupAndRestore {
 
     private PersistenceController<EventRepository> controller;
 
@@ -73,6 +73,12 @@ public class EventService implements BackupData {
         return readAll().stream()
                 .map(e -> (Serializable) e)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void restore(final List<Serializable> data) {
+        data.stream().map(e -> (Event) e)
+                .forEach(e -> controller.execute(mgr -> mgr.restore(e)));
     }
 
 }

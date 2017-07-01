@@ -20,8 +20,9 @@ package ch.jug.komunumo.business.backup.entity;
 import java.io.Serializable;
 import java.util.List;
 
-public interface BackupData {
+public interface BackupAndRestore {
 
     List<Serializable> backup();
+    void restore(List<Serializable> data);
 
 }

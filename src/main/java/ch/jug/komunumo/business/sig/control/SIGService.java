@@ -18,6 +18,7 @@
 package ch.jug.komunumo.business.sig.control;
 
 import ch.jug.komunumo.PersistenceManager;
+import ch.jug.komunumo.business.backup.entity.BackupAndRestore;
 import ch.jug.komunumo.business.sig.entity.SIG;
 import pl.setblack.airomem.core.PersistenceController;
 
@@ -25,10 +26,12 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Singleton
-public class SIGService {
+public class SIGService implements BackupAndRestore {
 
     private PersistenceController<SIGRepository> controller;
 
@@ -52,6 +55,19 @@ public class SIGService {
 
     public void delete(@NotNull final String id) {
         controller.execute(mgr -> mgr.delete(id));
+    }
+
+    @Override
+    public List<Serializable> backup() {
+        return readAll().stream()
+                .map(s -> (Serializable) s)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void restore(final List<Serializable> data) {
+        data.stream().map(s -> (SIG) s)
+                .forEach(s -> controller.execute(mgr -> mgr.restore(s)));
     }
 
 }

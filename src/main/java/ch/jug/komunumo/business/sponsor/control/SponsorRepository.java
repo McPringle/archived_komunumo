@@ -48,6 +48,10 @@ class SponsorRepository implements Serializable {
         return sponsorToCreate;
     }
 
+    void restore(final Sponsor sponsor) {
+        sponsors.putIfAbsent(sponsor.getId(), sponsor);
+    }
+
     List<Sponsor> readAll() {
         return sponsors.values().stream()
                 .sorted(Comparator.comparing(Sponsor::getLevel)

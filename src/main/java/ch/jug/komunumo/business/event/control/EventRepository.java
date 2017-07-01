@@ -47,6 +47,10 @@ class EventRepository implements Serializable {
         return eventToCreate;
     }
 
+    void restore(final Event event) {
+        events.putIfAbsent(event.getId(), event);
+    }
+
     List<Event> readAll() {
         return events.values().stream()
                 .sorted(Comparator.comparing(Event::getTime))

@@ -18,7 +18,7 @@
 package ch.jug.komunumo.business.sponsor.control;
 
 import ch.jug.komunumo.PersistenceManager;
-import ch.jug.komunumo.business.backup.entity.BackupData;
+import ch.jug.komunumo.business.backup.entity.BackupAndRestore;
 import ch.jug.komunumo.business.sponsor.entity.Level;
 import ch.jug.komunumo.business.sponsor.entity.Sponsor;
 import pl.setblack.airomem.core.PersistenceController;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Singleton
-public class SponsorService implements BackupData {
+public class SponsorService implements BackupAndRestore {
 
 
     private PersistenceController<SponsorRepository> controller;
@@ -80,7 +80,14 @@ public class SponsorService implements BackupData {
     @Override
     public List<Serializable> backup() {
         return readAll().stream()
-                .map(e -> (Serializable) e)
+                .map(s -> (Serializable) s)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void restore(final List<Serializable> data) {
+        data.stream().map(s -> (Sponsor) s)
+                .forEach(s -> controller.execute(mgr -> mgr.restore(s)));
+    }
+
 }
