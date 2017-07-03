@@ -20,4 +20,5 @@ build
 komunumo.iml
 out
 /src/main/resources/rebel.xml
+/src/main/webapp/apidocs/komunumo.json
 /src/main/webapp/bower_components

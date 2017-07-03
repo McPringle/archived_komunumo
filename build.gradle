@@ -65,3 +65,21 @@ dependencies {
     )
 }
 
+task swagger(dependsOn: jaxrsAnalyzerDoc) {
+    doLast {
+        copy {
+            from 'build/jaxrsAnalyzer/jaxrsAnalyzerDoc'
+            into 'src/main/webapp/apidocs'
+            include 'komunumo.json'
+            filter { line ->
+                line.replace('/komunumo/api', '/api')
+            }
+        }
+    }
+}
+
+assemble.dependsOn swagger
+
+clean.doFirst {
+    delete 'src/main/webapp/apidocs/komunumo.json'
+}
