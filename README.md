@@ -13,6 +13,10 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## The Name
+
+*Komunumo* is an esperanto noun with a meaning of *community*.
+
 ## Throughput
 
 [![Throughput Graph](https://graphs.waffle.io/jugswitzerland/komunumo/throughput.svg)](https://waffle.io/jugswitzerland/komunumo/metrics/throughput)
