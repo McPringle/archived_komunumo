@@ -1,7 +1,7 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html" />
-<link rel="import" href="../../bower_components/paper-button-group/paper-button-group.html" />
-<link rel="import" href="../../bower_components/paper-button/paper-button.html" />
-<link rel="import" href="../../bower_components/marked-element/marked-element.html" />
+<link rel="import" href="/bower_components/polymer/polymer.html" />
+<link rel="import" href="/bower_components/paper-button-group/paper-button-group.html" />
+<link rel="import" href="/bower_components/paper-button/paper-button.html" />
+<link rel="import" href="/bower_components/marked-element/marked-element.html" />
 
 <dom-module id="komunumo-sigs">
     <template>
@@ -63,7 +63,7 @@
             }
         </style>
 
-        <iron-ajax auto url="[[rootPath]]api/sigs" handle-as="json" last-response="{{sigs}}"></iron-ajax>
+        <iron-ajax auto url="/api/sigs" handle-as="json" last-response="{{sigs}}"></iron-ajax>
 
         <header>
             <h2>SIGS</h2>

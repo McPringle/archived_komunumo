@@ -1,10 +1,10 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html" />
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"/>
-<link rel="import" href="../../bower_components/paper-card/paper-card.html" />
-<link rel="import" href="../../bower_components/paper-button-group/paper-button-group.html" />
-<link rel="import" href="../../bower_components/paper-button/paper-button.html" />
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html" />
-<link rel="import" href="../../bower_components/iron-icons/iron-icons.html" />
+<link rel="import" href="/bower_components/polymer/polymer.html" />
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html"/>
+<link rel="import" href="/bower_components/paper-card/paper-card.html" />
+<link rel="import" href="/bower_components/paper-button-group/paper-button-group.html" />
+<link rel="import" href="/bower_components/paper-button/paper-button.html" />
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html" />
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html" />
 
 <dom-module id="komunumo-eventlist">
     <template>
@@ -146,7 +146,7 @@
 
         <div id="eventlist">
             <h3>Upcoming Events in [[city]]</h3>
-            <iron-ajax auto url="[[rootPath]]api/events?city=[[_urlEncode(city)]]" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
+            <iron-ajax auto url="/api/events?city=[[_urlEncode(city)]]" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
             <template is="dom-repeat" items="[[ajaxResponse]]">
                 <paper-card>
                     <span class="upcoming">Upcoming</span>
