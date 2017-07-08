@@ -17,6 +17,8 @@
  */
 package ch.jug.komunumo;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.Filter;
@@ -31,15 +33,22 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 
+import static java.lang.Boolean.TRUE;
+
 @Slf4j
 @WebFilter("/*")
 public class ClientReloadFilter implements Filter {
 
     private ServletContext context;
 
+    private Cache<Object, Object> skipRedirectCache;
+
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
         context = filterConfig.getServletContext();
+        skipRedirectCache = CacheBuilder.newBuilder().maximumSize(10_000).build();
+        skipRedirectCache.put("/index.html", TRUE);
+        skipRedirectCache.put("/favicon.ico", TRUE);
     }
 
     @Override
@@ -49,21 +58,32 @@ public class ClientReloadFilter implements Filter {
             throws IOException, ServletException {
 
         final String requestURI = ((HttpServletRequest) request).getRequestURI();
-        if (!requestURI.startsWith("/api") &&
-                !requestURI.equals("/") &&
-                !requestURI.equals("/index.html") &&
-                !isStaticFile(requestURI)) {
+        final boolean isCircle = request.getAttribute("ClientReloadFilter") != null;
+        if (isCircle) log.warn("Filter circle detected for URI `{}`!", requestURI);
+        if (!isCircle && !skipRedirectOnURI(requestURI)) {
             log.info("Internal redirect from '{}' to '/index.html'.", requestURI);
+            request.setAttribute("ClientReloadFilter", TRUE);
             request.getRequestDispatcher("/index.html").forward(request, response);
         } else {
             chain.doFilter(request, response);
         }
     }
 
-    private boolean isStaticFile(String requestURI) {
-        final String realPath = context.getRealPath(requestURI);
-        final File file = realPath == null ? null : new File(realPath);
-        return file != null && file.exists();
+    private boolean skipRedirectOnURI(String requestURI) {
+        Boolean skipRedirect = (Boolean) skipRedirectCache.getIfPresent(requestURI);
+        if (skipRedirect == null) {
+            skipRedirect = requestURI.startsWith("/api") ||
+                    requestURI.startsWith("/apidocs") ||
+                    requestURI.startsWith("/bower_components") ||
+                    requestURI.startsWith("/komunumo_components");
+            if (!skipRedirect) {
+                final String realPath = context.getRealPath(requestURI);
+                final File file = realPath == null ? null : new File(realPath);
+                skipRedirect = file != null && file.exists();
+            }
+            skipRedirectCache.put(requestURI, skipRedirect);
+        }
+        return skipRedirect;
     }
 
     @Override

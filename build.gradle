@@ -53,13 +53,13 @@ dependencies {
     )
     compile (
             "com.google.code.gson:gson:$gsonVersion",
+            "com.google.guava:guava:$guavaVersion",
             "org.zalando.phrs:jersey-media-json-gson:$jerseyMediaJsonGsonVersion",
             "org.slf4j:slf4j-api:$slf4jVersion",
             "org.slf4j:slf4j-simple:$slf4jVersion",
             "pl.setblack:airomem-core:$airomemVersion"
     )
     testCompile (
-            "com.google.guava:guava:$guavaVersion",
             "org.hamcrest:hamcrest-all:$hamcrestVersion",
             "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     )
