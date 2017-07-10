@@ -19,6 +19,7 @@ package ch.jug.komunumo.business.backup.control;
 
 import ch.jug.komunumo.business.backup.entity.BackupAndRestore;
 import ch.jug.komunumo.business.event.control.EventService;
+import ch.jug.komunumo.business.fact.control.FactService;
 import ch.jug.komunumo.business.newsletter.control.NewsletterService;
 import ch.jug.komunumo.business.sig.control.SIGService;
 import ch.jug.komunumo.business.sponsor.control.SponsorService;
@@ -37,10 +38,12 @@ public class BackupService {
 
     @Inject
     public BackupService(final EventService eventService,
+                         final FactService factService,
                          final NewsletterService newsletterService,
                          final SIGService sigService,
                          final SponsorService sponsorService) {
         this.services.put("Event", eventService);
+        this.services.put("Fact", factService);
         this.services.put("SIG", sigService);
         this.services.put("Sponsor", sponsorService);
     }
