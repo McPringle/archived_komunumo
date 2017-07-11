@@ -20,6 +20,7 @@ package ch.jug.komunumo.business.fact.entity;
 import lombok.Builder;
 import lombok.Value;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Value
@@ -31,7 +32,7 @@ public class Fact implements Serializable {
     String id;
     Long version;
 
-    Long value;
-    String description;
+    @NotNull Long value;
+    @NotNull String description;
 
 }
