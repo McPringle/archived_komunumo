@@ -1,4 +1,5 @@
 <link rel="import" href="/bower_components/polymer/polymer.html" />
+<link rel="import" href="/komunumo_components/komunumo-facts/komunumo-facts.html" />
 
 <dom-module id="komunumo-header">
     <template>
@@ -40,19 +41,9 @@
                 width: 405px;
             }
 
-            #info {
-                font-weight: bold;
+            komunumo-facts {
+                display: block;
                 padding-top: 4em;
-                text-transform: uppercase;
-            }
-
-            #info .number {
-                display: inline-block;
-                font-size: 8em;
-            }
-
-            #info .text {
-                display: inline-block;
             }
         </style>
         <header>
@@ -67,10 +58,7 @@
                 <a href="">Login</a>
             </nav>
             <div id="logo"></div>
-            <div id="info">
-                <div class="number">3074</div>
-                <div class="text">participiants registered for our events during 2016.</div>
-            </div>
+            <komunumo-facts></komunumo-facts>
         </header>
     </template>
 

@@ -1,0 +1,41 @@
+<link rel="import" href="/bower_components/polymer/polymer.html" />
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html" />
+
+<dom-module id="komunumo-facts">
+    <template>
+        <style>
+            * {
+                color: #333333;
+            }
+
+            div {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            .number {
+                display: inline-block;
+                font-size: 8em;
+            }
+
+            .text {
+                display: inline-block;
+            }
+        </style>
+
+        <iron-ajax id="factRequest" auto url="/api/facts/random" handle-as="json" last-response="{{fact}}"></iron-ajax>
+        <div class="number">[[fact.value]]</div>
+        <div class="text">[[fact.description]]</div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'komunumo-facts',
+            ready: function() {
+                setInterval(function() {
+                    this.$.factRequest.generateRequest();
+                }.bind(this), 30000);
+            }
+        });
+    </script>
+</dom-module>
